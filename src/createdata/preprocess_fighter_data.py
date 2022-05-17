@@ -58,6 +58,10 @@ class FighterDetailProcessor:
             "win_by_TKO - Doctor's Stoppage",
         ]
 
+        last_fight_L_by_KO_TKO_column = [
+            "last_fight_L_KO/TKO",
+        ]
+
         Numerical_columns = [
             "hero_KD",
             "opp_KD",
@@ -130,7 +134,6 @@ class FighterDetailProcessor:
             )
 
             for i, index in enumerate(fighter.index):
-
                 fighter_slice = fighter[(i + 1) :].sort_index(ascending=False)
                 s = (
                     fighter_slice[Numerical_columns]
@@ -156,6 +159,11 @@ class FighterDetailProcessor:
                 for win_by_column, win_by_result in zip(win_by_columns, win_by_results):
                     s[win_by_column] = win_by_result
 
+                if all((fighter_slice["Winner"].head(1) == "opp") & (fighter_slice["win_by_KO/TKO"].head(1) == 1)):
+                    s[last_fight_L_by_KO_TKO_column] = 1
+                else:
+                    s[last_fight_L_by_KO_TKO_column] = 0
+                
                 s.index = [index]
 
                 if fighter_index is None:
@@ -237,7 +245,7 @@ class FighterDetailProcessor:
                 losses += 1
                 current_win_streak = 0
                 current_lose_streak += 1
-
+                
             elif result == "draw":
                 draw += 1
                 current_lose_streak = 0
