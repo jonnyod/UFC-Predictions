@@ -58,8 +58,9 @@ class FighterDetailProcessor:
             "win_by_TKO - Doctor's Stoppage",
         ]
 
-        last_fight_L_by_KO_TKO_column = [
+        lose_by_KO_TKO_columns = [
             "last_fight_L_KO/TKO",
+            "all_fights_L_KO/TKO",
         ]
 
         Numerical_columns = [
@@ -133,6 +134,8 @@ class FighterDetailProcessor:
                 lambda X: "hero" if X == fighter_name else "opp"
             )
 
+            lose_by_KO_TKO_counter = 0
+
             for i, index in enumerate(fighter.index):
                 fighter_slice = fighter[(i + 1) :].sort_index(ascending=False)
                 s = (
@@ -158,12 +161,15 @@ class FighterDetailProcessor:
                 ].sum()
                 for win_by_column, win_by_result in zip(win_by_columns, win_by_results):
                     s[win_by_column] = win_by_result
-
+    
                 if all((fighter_slice["Winner"].head(1) == "opp") & (fighter_slice["win_by_KO/TKO"].head(1) == 1)):
-                    s[last_fight_L_by_KO_TKO_column] = 1
+                    s["last_fight_L_KO/TKO"] = 1
+                    lose_by_KO_TKO_counter = lose_by_KO_TKO_counter + 1
                 else:
-                    s[last_fight_L_by_KO_TKO_column] = 0
-                
+                    s["last_fight_L_KO/TKO"] = 0
+
+                s["all_fights_L_KO/TKO"] = lose_by_KO_TKO_counter
+                    
                 s.index = [index]
 
                 if fighter_index is None:
