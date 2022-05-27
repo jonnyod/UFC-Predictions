@@ -61,6 +61,8 @@ class FighterDetailProcessor:
         lose_by_KO_TKO_columns = [
             "last_fight_L_KO/TKO",
             "all_fights_L_KO/TKO",
+            "last_fight_L_TKO_Doctor_Stoppage",
+            "all_fights_L_TKO_Doctor_Stoppage",
         ]
 
         Numerical_columns = [
@@ -134,6 +136,7 @@ class FighterDetailProcessor:
                 lambda X: "hero" if X == fighter_name else "opp"
             )
 
+            lose_by_TKO_Doctor_Stoppage_counter = 0
             lose_by_KO_TKO_counter = 0
 
             for i, index in enumerate(fighter.index):
@@ -161,7 +164,18 @@ class FighterDetailProcessor:
                 ].sum()
                 for win_by_column, win_by_result in zip(win_by_columns, win_by_results):
                     s[win_by_column] = win_by_result
-    
+
+                # Added KO/TKO features start (need to encapsulate in function in future) #
+                # TKO by Doctor's Stoppage
+                if all((fighter_slice["Winner"].head(1) == "opp") & (fighter_slice["win_by_TKO - Doctor's Stoppage"].head(1) == 1)):
+                    s["last_fight_L_TKO_Doctor_Stoppage"] = 1
+                    lose_by_TKO_Doctor_Stoppage_counter = lose_by_TKO_Doctor_Stoppage_counter + 1
+                else:
+                    s["last_fight_L_TKO_Doctor_Stoppage"] = 0
+
+                s["all_fights_L_TKO_Doctor_Stoppage"] = lose_by_TKO_Doctor_Stoppage_counter
+                
+                # KO/TKO
                 if all((fighter_slice["Winner"].head(1) == "opp") & (fighter_slice["win_by_KO/TKO"].head(1) == 1)):
                     s["last_fight_L_KO/TKO"] = 1
                     lose_by_KO_TKO_counter = lose_by_KO_TKO_counter + 1
@@ -169,6 +183,7 @@ class FighterDetailProcessor:
                     s["last_fight_L_KO/TKO"] = 0
 
                 s["all_fights_L_KO/TKO"] = lose_by_KO_TKO_counter
+                # END #
                     
                 s.index = [index]
 
