@@ -1,50 +1,19 @@
-## UFC predictions
-
+## UFC Fight Feature Extraction
 
 ### Usage
 
-![UFC app](https://github.com/WarrierRajeev/UFC-Predictions/blob/master/ufc-app.png)
-
-- Go to https://ufc-predictions.rajeevwarrier.com/
-- Select weight-class of the bout
-- Select Number of 5 minute rounds the fight is scheduled for
-- Select if the fight is a title fight or not
-- Select the fighter names
-- Click predict
+- From the root i.e. `UFC-Predictions`, Simply run `python -m src.create_ufc_data`
 
 ### Details
 
-- Scraped event and fight stats, data from 1993 to present date using Beautiful Soup.
-- Cleaned, preprocessed and feature engineered the data to each row being a historical representation of both fighters and their individual fights/fight stats.
-- Dataset uploaded and now available on Kaggle at: https://www.kaggle.com/rajeevw/ufcdata
-- Oversampled minority class, created and tested predictive models using `RandomForestClassifier` and `XGBoostClassifier`
-- Created a web app using dash and deployed it with docker on heroku.
-
-### Results
-
-- Accuracy (valid): 0.7218
-- AUC Score (valid): 0.7763
-
-![Confusion Matrix](https://github.com/WarrierRajeev/UFC-Predictions/blob/master/conf-matrix.png)
-
-- `0` corresponds to **Blue**: Fighter in the blue corner
-- `1` corresponds to **Red**: Fighter in the red corner
-
-- Generally the underdog is in the blue corner and favourite fighter is in the red corner.
-- The model is therefore (understandably) having a hard time figuring out when the underdog wins. This is because the sport is very volatile and there can be anything from an injury, psychological loss/trauma to just pure luck that determine the winner.
+- Forked from https://github.com/WarrierRajeev/UFC-Predictions, with web app removed, data quality improvement implemented (only using Unified MMA Rules), and new features engineered (loss by KO/TKO features). These improvements result in more balanced data with further important predictors of fight events.
+- Event and fight stats data now being scraped from 2010 (as the boxing commissions adopted the Unified MMA Rules in July 2009) to present date.
 
 ### Details about the data
 
 #### Context
 
-This is a list of every UFC fight in the history of the organisation. Every row contains information about both fighters, fight details and the winner. The data was scraped from ufcstats website. After fightmetric ceased to exist, this came into picture. I saw that there was a lot of information on the website about every fight and every event and there were no existing ways of capturing all this. I used beautifulsoup to scrape the data and pandas to process it. It was a long and arduous process, please forgive any mistakes. I have provided the raw files incase anybody wants to process it differently. This is my first time creating a dataset, any suggestions and corrections are welcome!
-
-### How to use from Scratch?
-
-- From the root i.e. `UFC-Predictions`, Simply run `python -m src.create_ufc_data`
-
-(Note: This will scrape everything from the beginning if you haven't used this before.
-Otherwise the command will update the data files. Then, it will preprocess the raw scraped files to create usable data files)
+Generally the underdog is in the blue corner and favourite fighter is in the red corner. Every row contains information about both fighters, fight details and the winner.
 
 #### Content
 
@@ -100,13 +69,12 @@ Here are some column definitions:
 - `win_by_Submission` is the number of wins by submission in the fighter's ufc career
 - `win_by_TKO_Doctor_Stoppage` is the number of wins by doctor stoppage in the fighter's ufc career
 
+Newly added features:
+- `last_fight_L_TKO_Doctor_Stoppage` binary flag for whether last fight was lost by Doctor's Stoppage
+- `all_fights_L_TKO_Doctor_Stoppage` count of the amount of fights lost by Doctor's Stoppage
+- `last_fight_L_KO/TKO` binary flag` binary flag for whether last fight was lost by KO/TKO
+- `all_fights_L_KO/TKO` count` count of the amount of fights lost by KO/TKO
+
 #### Acknowledgements
 
-- Inspiration: https://github.com/Hitkul/UFC_Fight_Prediction
-Provided ideas on how to store per fight data. Unfortunately, the entire UFC website and fightmetric website changed so couldn't reuse any of the code.
-
-- Print Progress Bar: https://gist.github.com/aubricus/f91fb55dc6ba5557fbab06119420dd6a
-To display progress of how much download is complete in the terminal
-
-- Web app: https://github.com/jasonchanhku/
-Ideas on how to use dash and google search api to show fighter images
+- Inspiration/fork/original source code that this work builds upon: https://github.com/WarrierRajeev/UFC-Predictions
