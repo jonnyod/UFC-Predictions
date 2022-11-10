@@ -403,9 +403,6 @@ class Preprocessor:
                 "R_Stance",
                 "Referee",
                 "location",
-                "date",
-                "R_fighter",
-                "B_fighter",
             ],
             inplace=True,
         )
