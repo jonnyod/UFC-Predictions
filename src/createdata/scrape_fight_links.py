@@ -27,9 +27,9 @@ class UFCLinks:
                 foo = href.get("href")
                 all_event_links.append(foo)
 
-        # This line deletes all pre-2010 events listed on ufcstats as the boxing
-        # commissions adopted the Unified MMA Rules in July 2009.
-        del all_event_links[len(all_event_links) - 141: ] 
+        # This line deletes all pre Aug. 2020 events listed on ufcstats as the UFC
+        # started providing odds from Brunson vs Shahbazayan, Sun. Aug. 2, 2020.
+        del all_event_links[len(all_event_links) - 524: ] 
                 
         if not self.PAST_EVENT_LINKS_PICKLE_PATH.exists():
             # if no past event links are present, then there are no new event links
