@@ -382,7 +382,6 @@ class Preprocessor:
     def _fill_nas(self):
         self.store["R_Reach_cms"].fillna(self.store["R_Height_cms"], inplace=True)
         self.store["B_Reach_cms"].fillna(self.store["B_Height_cms"], inplace=True)
-        self.store.fillna(self.store.median(), inplace=True)
 
         self.store["R_Stance"].fillna("Orthodox", inplace=True)
         self.store["B_Stance"].fillna("Orthodox", inplace=True)
@@ -406,3 +405,4 @@ class Preprocessor:
             ],
             inplace=True,
         )
+        self.store.dropna()
