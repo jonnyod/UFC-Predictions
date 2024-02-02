@@ -7,7 +7,8 @@
 ### Details
 
 - Forked from https://github.com/WarrierRajeev/UFC-Predictions, with web app removed, data quality improvement implemented (only using Unified MMA Rules), and new features engineered (loss by KO/TKO features). These improvements result in more balanced data with further important predictors of fight events.
-- Event and fight stats data now being scraped from 2010 (as the boxing commissions adopted the Unified MMA Rules in July 2009) to present date.
+- Event and fight stats data now being scraped from Aug. 2020 UFC Fight Night Brunson vs Shahbazyan (as the UFC started providing odds on their website from this date)
+to present date.
 
 ### Details about the data
 
